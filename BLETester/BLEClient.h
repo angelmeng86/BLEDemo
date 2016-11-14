@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#define LOG_D(format, ...) NSLog(format, ##__VA_ARGS__)
-
-#define SWING_WATCH_BATTERY_NOTIFY  @"SWING_WATCH_BATTERY_NOTIFY"
-
 typedef void (^SwingBluetoothInitDeviceBlock)(NSData *macAddress, NSError *error);
 typedef void (^SwingBluetoothScanDeviceBlock)(CBPeripheral *peripheral, NSDictionary *advertisementData, NSError *error);
 
