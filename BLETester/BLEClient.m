@@ -63,7 +63,7 @@
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI {
     LOG_D(@"didDiscoverPeripheral:%@ advertisementData:%@ RSSI:%@", peripheral, advertisementData, RSSI);
-    if ([peripheral.name hasPrefix:@"Swing"]) {
+    if ([peripheral.name.uppercaseString hasPrefix:@"SWING"]) {
         if (![self.connectingDevices containsObject:peripheral]) {
             [self.connectingDevices addObject:peripheral];
         }
