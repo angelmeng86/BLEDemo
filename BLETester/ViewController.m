@@ -106,6 +106,7 @@
         self.statusLabel.text = @"请先进行查找设备操作！";
         return;
     }
+    self.statusLabel.text = @"开始同步设备...";
     int start = 30;//30秒后将会陆续播放alert，每隔6秒播放一个
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 36; i < 77; i++) {
