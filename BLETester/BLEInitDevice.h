@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "BLEWaitDevice.h"
 
 @protocol BLEInitDeviceDelegate <NSObject>
 
@@ -15,12 +16,8 @@
 
 @end
 
-@interface BLEInitDevice : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
-
-@property (nonatomic, weak) id delegate;
+@interface BLEInitDevice : BLEWaitDevice
 
 - (void)initDevice:(CBPeripheral*)peripheral  centralManager:(CBCentralManager *)central;
-
-- (void)cannel;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "BLEWaitDevice.h"
 
 @protocol BLEScanDeviceDelegate <NSObject>
 
@@ -15,9 +16,7 @@
 
 @end
 
-@interface BLEScanDevice : NSObject<CBCentralManagerDelegate>
-
-@property (nonatomic, weak) id delegate;
+@interface BLEScanDevice : BLEWaitDevice
 
 - (void)scanDevice:(CBCentralManager *)central;
 

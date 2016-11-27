@@ -14,6 +14,7 @@
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)initAction:(id)sender;
 - (IBAction)scanAction:(id)sender;
+- (IBAction)syncAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;

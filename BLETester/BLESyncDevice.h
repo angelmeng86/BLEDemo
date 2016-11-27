@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import "BLEWaitDevice.h"
 
-@interface BLESyncDevice : NSObject
+@protocol BLESyncDeviceDelegate <NSObject>
+
+- (void)reportSyncDeviceResult:(NSMutableArray*)activities error:(NSError*)error;
+
+@end
+
+@interface BLESyncDevice : BLEWaitDevice
+
+- (void)syncDevice:(CBPeripheral*)peripheral centralManager:(CBCentralManager *)central event:(NSArray*)events;
 
 @end

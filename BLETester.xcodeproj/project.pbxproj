@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F15D7E51DEA8F20000EC8EE /* BLEWaitDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15D7E41DEA8F20000EC8EE /* BLEWaitDevice.m */; };
+		0F15D7EA1DEA91BD000EC8EE /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15D7E71DEA91BD000EC8EE /* ActivityModel.m */; };
+		0F15D7EB1DEA91BD000EC8EE /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15D7E91DEA91BD000EC8EE /* EventModel.m */; };
+		0F15D7EE1DEA9316000EC8EE /* CBService+LMMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15D7ED1DEA9316000EC8EE /* CBService+LMMethod.m */; };
 		0F5862D61DD8779E000BD30C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5862D51DD8779E000BD30C /* main.m */; };
 		0F5862D91DD8779E000BD30C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5862D81DD8779E000BD30C /* AppDelegate.m */; };
 		0F5862DC1DD8779E000BD30C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5862DB1DD8779E000BD30C /* ViewController.m */; };
@@ -22,6 +26,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F15D7E31DEA8F20000EC8EE /* BLEWaitDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEWaitDevice.h; sourceTree = "<group>"; };
+		0F15D7E41DEA8F20000EC8EE /* BLEWaitDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEWaitDevice.m; sourceTree = "<group>"; };
+		0F15D7E61DEA91BD000EC8EE /* ActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityModel.h; sourceTree = "<group>"; };
+		0F15D7E71DEA91BD000EC8EE /* ActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityModel.m; sourceTree = "<group>"; };
+		0F15D7E81DEA91BD000EC8EE /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventModel.h; sourceTree = "<group>"; };
+		0F15D7E91DEA91BD000EC8EE /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
+		0F15D7EC1DEA9316000EC8EE /* CBService+LMMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBService+LMMethod.h"; sourceTree = "<group>"; };
+		0F15D7ED1DEA9316000EC8EE /* CBService+LMMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBService+LMMethod.m"; sourceTree = "<group>"; };
 		0F5862D11DD8779E000BD30C /* BLETester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLETester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F5862D51DD8779E000BD30C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0F5862D71DD8779E000BD30C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -76,6 +88,12 @@
 		0F5862D31DD8779E000BD30C /* BLETester */ = {
 			isa = PBXGroup;
 			children = (
+				0F15D7EC1DEA9316000EC8EE /* CBService+LMMethod.h */,
+				0F15D7ED1DEA9316000EC8EE /* CBService+LMMethod.m */,
+				0F15D7E61DEA91BD000EC8EE /* ActivityModel.h */,
+				0F15D7E71DEA91BD000EC8EE /* ActivityModel.m */,
+				0F15D7E81DEA91BD000EC8EE /* EventModel.h */,
+				0F15D7E91DEA91BD000EC8EE /* EventModel.m */,
 				0F5862D71DD8779E000BD30C /* AppDelegate.h */,
 				0F5862D81DD8779E000BD30C /* AppDelegate.m */,
 				0F5862DA1DD8779E000BD30C /* ViewController.h */,
@@ -95,6 +113,8 @@
 				AD5030C61DD9D3CD0072CF60 /* BLESyncDevice.m */,
 				AD5030C81DD9D4020072CF60 /* BLEScanDevice.h */,
 				AD5030C91DD9D4020072CF60 /* BLEScanDevice.m */,
+				0F15D7E31DEA8F20000EC8EE /* BLEWaitDevice.h */,
+				0F15D7E41DEA8F20000EC8EE /* BLEWaitDevice.m */,
 				AD5030CB1DD9D4400072CF60 /* Fun.h */,
 				AD5030CC1DD9D4400072CF60 /* Fun.m */,
 			);
@@ -183,10 +203,14 @@
 			files = (
 				AD5030CD1DD9D4400072CF60 /* Fun.m in Sources */,
 				0F5862ED1DD87DFC000BD30C /* BLEClient.m in Sources */,
+				0F15D7EB1DEA91BD000EC8EE /* EventModel.m in Sources */,
 				AD5030C41DD9D39C0072CF60 /* BLEInitDevice.m in Sources */,
 				AD5030CA1DD9D4020072CF60 /* BLEScanDevice.m in Sources */,
+				0F15D7E51DEA8F20000EC8EE /* BLEWaitDevice.m in Sources */,
 				0F5862DC1DD8779E000BD30C /* ViewController.m in Sources */,
+				0F15D7EA1DEA91BD000EC8EE /* ActivityModel.m in Sources */,
 				0F5862D91DD8779E000BD30C /* AppDelegate.m in Sources */,
+				0F15D7EE1DEA9316000EC8EE /* CBService+LMMethod.m in Sources */,
 				0F5862D61DD8779E000BD30C /* main.m in Sources */,
 				AD5030C11DD9D35E0072CF60 /* BLESearchDevice.m in Sources */,
 				AD5030C71DD9D3CD0072CF60 /* BLESyncDevice.m in Sources */,

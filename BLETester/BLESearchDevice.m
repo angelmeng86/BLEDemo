@@ -14,8 +14,6 @@
 @property (nonatomic, strong) NSMutableArray *connectingDevices;
 @property (nonatomic, strong) NSData *macAddress;
 
-@property (nonatomic, weak) CBCentralManager *manager;
-
 @end
 
 @implementation BLESearchDevice
@@ -28,23 +26,11 @@
 }
 
 - (void)cannel {
+    [super cannel];
     for (CBPeripheral *peripheral in _connectingDevices) {
-        [_manager cancelPeripheralConnection:peripheral];
+        [self.manager cancelPeripheralConnection:peripheral];
     }
     [_connectingDevices removeAllObjects];
-}
-
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    switch (central.state) {
-        case CBManagerStatePoweredOn:
-            LOG_D(@"蓝牙已打开,请扫描外设");
-            break;
-        case CBManagerStatePoweredOff:
-            LOG_D(@"蓝牙没有打开,请先打开蓝牙");
-            break;
-        default:
-            break;
-    }
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI {
@@ -53,7 +39,18 @@
         if (![self.connectingDevices containsObject:peripheral]) {
             [self.connectingDevices addObject:peripheral];
         }
+        
+        LOG_D(@"connectPeripheral:%@", peripheral);
         [central connectPeripheral:peripheral options:nil];
+        
+//        LOG_D(@"connectPeripheral:%@", peripheral);
+//        [central connectPeripheral:peripheral options:nil];
+//        if (peripheral.state != CBPeripheralStateConnecting &&
+//            peripheral.state != CBPeripheralStateConnected) {
+//            LOG_D(@"connectPeripheral:%@", peripheral);
+//            [central connectPeripheral:peripheral options:nil];
+//        }
+        
     }
 }
 
@@ -71,6 +68,11 @@
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error {
     LOG_D(@"didDisconnectPeripheral:%@ error:%@", peripheral, error);
+    if (error) {
+        LOG_D(@"reconnectPeripheral:%@", peripheral);
+        [central connectPeripheral:peripheral options:nil];
+        return;
+    }
     [self.connectingDevices removeObject:peripheral];
 }
 
@@ -143,16 +145,18 @@
 - (void)searchDevice:(NSData*)macAddress centralManager:(CBCentralManager *)central {
     self.macAddress = macAddress;
     self.manager = central;
-    if (central.state == CBManagerStatePoweredOn) {
-        [self performSelector:@selector(operationTimeout) withObject:nil afterDelay:30];
-        //        NSArray *services = @[[CBUUID UUIDWithString:@"FFA0"]];
-        //        NSDictionary *scanForPeripheralsWithOptions = @{CBCentralManagerScanOptionAllowDuplicatesKey:@YES};
-        LOG_D(@"searchDevice:%@", macAddress);
-        [central scanForPeripheralsWithServices:nil options:nil];
-    }
-    else {
-        [self reportSearchDeviceResult:nil error:[NSError errorWithDomain:@"SwingBluetooth" code:-2 userInfo:[NSDictionary dictionaryWithObject:@"蓝牙开关未打开" forKey:NSLocalizedDescriptionKey]]];
-    }
+    LOG_D(@"searchDevice:%@", macAddress);
+    [self checkBleStatus];
+}
+
+- (void)bleTimeout {
+    [self reportSearchDeviceResult:nil error:[NSError errorWithDomain:@"SwingBluetooth" code:-2 userInfo:[NSDictionary dictionaryWithObject:@"蓝牙开关未打开" forKey:NSLocalizedDescriptionKey]]];
+}
+
+- (void)fire {
+    [self performSelector:@selector(operationTimeout) withObject:nil afterDelay:30];
+//    [self.manager scanForPeripheralsWithServices:nil options:nil];
+    [self.manager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@YES}];
 }
 
 - (void)operationTimeout {
@@ -162,8 +166,8 @@
 
 - (void)reportSearchDeviceResult:(CBPeripheral*)peripheral error:(NSError*)error {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(operationTimeout) object:nil];
-    if ([_delegate respondsToSelector:@selector(reportSearchDeviceResult:error:)]) {
-        [_delegate reportSearchDeviceResult:peripheral error:error];
+    if ([self.delegate respondsToSelector:@selector(reportSearchDeviceResult:error:)]) {
+        [self.delegate reportSearchDeviceResult:peripheral error:error];
     }
     [self cannel];
 }

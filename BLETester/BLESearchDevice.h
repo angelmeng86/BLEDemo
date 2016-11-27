@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "BLEWaitDevice.h"
 
 @protocol BLESearchDeviceDelegate <NSObject>
 
@@ -15,12 +16,8 @@
 
 @end
 
-@interface BLESearchDevice : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate>
-
-@property (nonatomic, weak) id delegate;
+@interface BLESearchDevice : BLEWaitDevice
 
 - (void)searchDevice:(NSData*)macAddress centralManager:(CBCentralManager *)central;
-
-- (void)cannel;
 
 @end

@@ -8,10 +8,12 @@
 
 #import "ViewController.h"
 #import "BLEClient.h"
+#import "EventModel.h"
 
 @interface ViewController ()
 {
     BLEClient *client;
+    NSString *mac;
 }
 
 @property (nonatomic, strong) CBPeripheral *peripheral;
@@ -41,6 +43,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     client = [[BLEClient alloc] init];
+    
+    //要搜索的蓝牙地址，请使用十六进制不带空格
+    mac = @"87432b199e68";
 }
 
 
@@ -51,8 +56,6 @@
 
 
 - (IBAction)searchAction:(id)sender {
-    //要搜索的蓝牙地址，请使用十六进制不带空格
-    NSString *mac = @"87432b199e68";
     NSData *macAddress = [ViewController hexToData:mac];
     self.statusLabel.text = [NSString stringWithFormat:@"正在搜索...%@", macAddress];
     self.searchBtn.enabled = NO;
@@ -94,6 +97,30 @@
         }
         else {
             self.statusLabel.text = [NSString stringWithFormat:@"scanAction:%@", peripheral];
+        }
+    }];
+}
+
+- (IBAction)syncAction:(id)sender {
+    if (!self.peripheral) {
+        self.statusLabel.text = @"请先进行查找设备操作！";
+        return;
+    }
+    int start = 30;//30秒后将会陆续播放alert，每隔6秒播放一个
+    NSMutableArray *array = [NSMutableArray array];
+    for (int i = 36; i < 77; i++) {
+        EventModel *model = [[EventModel alloc] init];
+        model.alert = i;
+        model.startDate = [[NSDate date] dateByAddingTimeInterval:start];
+        start += 6;//间隔时间
+        [array addObject:model];
+    }
+    [client syncDevice:self.peripheral event:array completion:^(NSMutableArray *activities, NSError *error) {
+        if (error) {
+            self.statusLabel.text = [error localizedDescription];
+        }
+        else {
+            self.statusLabel.text = @"同步完成！";
         }
     }];
 }

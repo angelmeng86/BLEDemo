@@ -10,7 +10,9 @@
 #import "BLESearchDevice.h"
 #import "BLEInitDevice.h"
 #import "BLEScanDevice.h"
+#import "BLESyncDevice.h"
 #import "Fun.h"
+#import "ActivityModel.h"
 
 
 @interface BLEClient ()
@@ -18,6 +20,7 @@
     BLESearchDevice *searchDevice;
     BLEInitDevice *initDevice;
     BLEScanDevice *scanDevice;
+    BLESyncDevice *syncDevice;
 }
 
 @property (nonatomic, strong) CBCentralManager *manager;
@@ -41,10 +44,12 @@
         searchDevice = [[BLESearchDevice alloc] init];
         initDevice = [[BLEInitDevice alloc] init];
         scanDevice = [[BLEScanDevice alloc] init];
+        syncDevice = [[BLESyncDevice alloc] init];
         
         searchDevice.delegate = self;
         initDevice.delegate = self;
         scanDevice.delegate = self;
+        syncDevice.delegate = self;
     }
     return self;
 }
@@ -98,13 +103,31 @@
 }
 
 - (void)syncDevice:(CBPeripheral*)peripheral event:(NSArray*)events completion:(SwingBluetoothSyncDeviceBlock)completion {
-    
+    self.blockOnSyncDevice = completion;
+    _manager.delegate = syncDevice;
+    LOG_D(@"syncDevice BEGIN");
+    [syncDevice syncDevice:peripheral centralManager:_manager event:events];
+}
+
+- (void)reportSyncDeviceResult:(NSMutableArray*)activities error:(NSError*)error {
+    if (self.blockOnSyncDevice) {
+        self.blockOnSyncDevice(activities, error);
+        self.blockOnSyncDevice = nil;
+        if (error) {
+            LOG_D(@"reportSyncDeviceResult error:%@", error);
+        }
+        else {
+            LOG_D(@"reportSyncDeviceResult done");
+        }
+    }
 }
 
 - (void)cannelAll {
     [_manager stopScan];
     [initDevice cannel];
     [searchDevice cannel];
+    [syncDevice cannel];
+    [scanDevice cannel];
 }
 
 @end
