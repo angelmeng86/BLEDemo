@@ -41,6 +41,10 @@
         searchDevice = [[BLESearchDevice alloc] init];
         initDevice = [[BLEInitDevice alloc] init];
         scanDevice = [[BLEScanDevice alloc] init];
+        
+        searchDevice.delegate = self;
+        initDevice.delegate = self;
+        scanDevice.delegate = self;
     }
     return self;
 }
@@ -99,6 +103,7 @@
 
 - (void)cannelAll {
     [_manager stopScan];
+    [initDevice cannel];
     [searchDevice cannel];
 }
 

@@ -27,14 +27,14 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI {
     LOG_D(@"didDiscoverPeripheral:%@ advertisementData:%@ RSSI:%@", peripheral, advertisementData, RSSI);
     if ([peripheral.name.uppercaseString hasPrefix:@"SWING"]) {
-        [central connectPeripheral:peripheral options:nil];
+        [self reportScanDeviceResult:peripheral advertisementData:advertisementData error:nil];
     }
 }
 
 - (void)scanDevice:(CBCentralManager *)central {
     if (central.state == CBManagerStatePoweredOn) {
         LOG_D(@"scanDevice");
-        [central scanForPeripheralsWithServices:nil options:nil];
+        [central scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@YES}];
     }
     else {
         [self reportScanDeviceResult:nil advertisementData:nil error:[NSError errorWithDomain:@"SwingBluetooth" code:-2 userInfo:[NSDictionary dictionaryWithObject:@"蓝牙开关未打开" forKey:NSLocalizedDescriptionKey]]];

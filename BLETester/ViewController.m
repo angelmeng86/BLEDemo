@@ -14,6 +14,8 @@
     BLEClient *client;
 }
 
+@property (nonatomic, strong) CBPeripheral *peripheral;
+
 @end
 
 @implementation ViewController
@@ -60,6 +62,7 @@
         }
         else {
             self.statusLabel.text = [NSString stringWithFormat:@"找到设备:%@", peripheral];
+            self.peripheral = peripheral;
         }
         self.searchBtn.enabled = YES;
     }];
@@ -69,6 +72,30 @@
     [client cannelAll];
     self.searchBtn.enabled = YES;
     self.statusLabel.text = nil;
+}
+
+- (IBAction)initAction:(id)sender {
+    self.statusLabel.text = nil;
+    [client initDevice:_peripheral completion:^(NSData *macAddress, NSError *error) {
+        if (error) {
+            self.statusLabel.text = [error localizedDescription];
+        }
+        else {
+            self.statusLabel.text = [NSString stringWithFormat:@"初始化设备:%@", macAddress];
+        }
+    }];
+}
+
+- (IBAction)scanAction:(id)sender {
+    self.statusLabel.text = nil;
+    [client scanDeviceWithCompletion:^(CBPeripheral *peripheral, NSDictionary *advertisementData, NSError *error) {
+        if (error) {
+            self.statusLabel.text = [error localizedDescription];
+        }
+        else {
+            self.statusLabel.text = [NSString stringWithFormat:@"scanAction:%@", peripheral];
+        }
+    }];
 }
 
 @end
